@@ -1,37 +1,65 @@
-**QuickChat**
-CPSC-362 Software Engineering Project: Online Chat Application “QuickChat”
+# QuickChat
+**CPSC-362 Software Engineering Project: Online Chat Application**
 
-Product Vision
+## Product Vision
 
-**For** individuals and organizations that need fast and secure communication across online devices, **the** “QuickChat” app is a real-time chat application **that** enables users to message between each other in real time in both public and private chat rooms, private messaging, and in creating profiles with a username and avatar. **Unlike** other traditional messaging app competitors, **our product** offers an easy to use interface, with accessibility for both personal and business use.
+**For** individuals and organizations that need fast and secure communication across online devices, **the** "QuickChat" app is a real-time chat application **that** enables users to message each other in real-time through both public and private chat rooms, private messaging, and creating profiles with usernames and avatars. **Unlike** other traditional messaging apps, **our product** offers an easy-to-use interface, suitable for both personal and business use.
 
+---
 
+## Functional Requirements
 
-|<p>Functional requirements (How the system must work)</p><p>Business Requirements</p><p>- The application must scale to accommodate a growing user base. Including supporting 1 million active users by the first year, and must scale to accommodate any additional users.</p><p>- A free-to-use service may be accepted for rapid customer growth, but the application must generate profits by the 5th year.</p><p>&emsp;- The chat application must result in long-term profit for the business.</p>|<p>Nonfunctional requirements (how the system should operate, focusing on quality attributes)</p><p>Business Requirements</p><p>- A buy-out of the company (for its customer data) may be a way to monetize.</p><p>- Selling customer data directly to advertisers may also be a way to monetize.</p><p>- Banner ads and paid services (for unlimited images, or personalized user profiles) can provide scaling revenue.</p>|
-| :- | :- |
-|<p>User Requirements</p><p>- Users can register in the app with their email, username, and password.</p><p>- Registered users log into the system with their ID and password.</p><p>- Users can message each other in near-real time.</p><p>- Users can join public and private chat rooms</p><p>- Users can send images and files within a group chat or private</p><p>- Users must be over the age of 13 to</p>|<p>User Requirements</p><p>- User information must be stored in an encrypted and redundant database.</p><p>- Email verification or phone verification can be used to deter spam accounts.</p>|
+### Business Requirements
+- The application must scale to accommodate a growing user base, supporting 1 million active users by the first year, and continue scaling for any additional users.
+- A free-to-use service may be accepted for rapid customer growth, but the application must generate profits by the 5th year.
+- The chat application must result in long-term profit for the business.
 
+### User Requirements
+- Users can register in the app with their email, username, and password.
+- Registered users can log into the system with their credentials.
+- Users can send messages in near real-time.
+- Users can join public and private chat rooms.
+- Users can send images and files within both group chats and private messages.
+- Users must be over the age of 13 to register for an account.
 
+---
 
-|register for an account.conversation.||
-| - | :- |
-|<p>System Requirements</p><p>- The system must have a website.</p><p>- The system must place a limit on file and image sizes and quantity (e.g. a max transfer of 5 megabytes per 10 minutes)</p>|<p>System Requirements</p><p>- The application must be compatible with web browsers like Chrome.</p><p>- The system must deliver the messages with a latency of under 5 seconds, even during peak usage. The system must be user friendly, and have clear buttons for clicks and tasks.</p><p>-</p>|
+## Non-Functional Requirements
 
-**Context Diagram**
+### Business Requirements
+- A buy-out of the company (for its customer data) may be a way to monetize.
+- Selling customer data directly to advertisers may also be a way to generate revenue.
+- Banner ads and paid services (for features such as unlimited image uploads or personalized profiles) can provide scaling revenue.
 
-![](Context_Diagram_1.png)
+### System Requirements
+- User information must be stored in an encrypted and redundant database.
+- The system must implement email or phone verification to deter spam accounts.
+- The application must limit file and image sizes and quantity (e.g., max transfer of 5 megabytes per 10 minutes).
+- The system must be compatible with major web browsers like Chrome.
+- The system must deliver messages with a latency of under 5 seconds, even during peak usage.
+- The user interface must be intuitive, with clear buttons for actions and tasks.
 
-Contex Diagram
+---
 
-![](Context_DIagram_2.jpeg)
+## Context Diagrams
 
-**To do:**
+### Context Diagram 1
+![Context Diagram 1](Context_Diagram_1.png)
 
-- Add the Project/Product Vision
-- Add 5+ project requirements (both Functional and Non-Functional) in use case & use story format, (refer to format from lecture notes).
-- Add a context diagram with all actors and details that will depict the entire system.
+### Context Diagram 2
+![Context Diagram 2](Context_DIagram_2.jpeg)
 
-**Submit:**
+---
 
-- A .zip file with our project repository files (with Readme.md file)
-- Link to our Github repository (with Readme.md file)
+## To-Do List
+
+- Add the project/product vision.
+- Add 5+ project requirements (both functional and non-functional) in use case & user story format.
+- Add a context diagram with all actors and details to depict the entire system.
+
+---
+
+## Submission
+
+- A `.zip` file containing the project repository (including the README.md file).
+- A link to the GitHub repository (with the README.md file).
