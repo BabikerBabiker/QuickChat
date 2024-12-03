@@ -1,7 +1,15 @@
 "use client"; // Client Component directive
 
 import Navbar from "@/app/components/Navbar";
-import { Alert, Button, CircularProgress, Container, List, ListItem, Typography } from "@mui/material";
+import {
+  Alert,
+  Button,
+  CircularProgress,
+  Container,
+  List,
+  ListItem,
+  Typography,
+} from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -26,7 +34,9 @@ export default function Chat() {
       setLoading(true);
       try {
         const roomsSnapshot = await getDocs(collection(db, "chatRooms"));
-        setChatRooms(roomsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+        setChatRooms(
+          roomsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        );
       } catch (error) {
         console.error("Error fetching chat rooms:", error);
       } finally {
@@ -41,7 +51,14 @@ export default function Chat() {
 
   if (loading) {
     return (
-      <Container sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <Container
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
         <CircularProgress />
       </Container>
     );
@@ -51,8 +68,15 @@ export default function Chat() {
     <div>
       <Navbar />
 
-      <Container sx={{ maxWidth: "md", paddingTop: "2rem", paddingBottom: "2rem" }}>
-        <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 700 }}>
+      <Container
+        sx={{ maxWidth: "md", paddingTop: "2rem", paddingBottom: "2rem" }}
+      >
+        <Typography
+          variant="h4"
+          align="center"
+          gutterBottom
+          sx={{ fontWeight: 700 }}
+        >
           Welcome to QuickChat
         </Typography>
 

@@ -94,7 +94,7 @@ export default function Navbar() {
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Avatar
                 alt={user.displayName || "User"}
-                src={userDetails?.profilePicture || "/default-profile.jpg"}
+                src={userDetails?.profilePicture || "https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"}
                 onClick={handleMenuOpen}
                 sx={{
                   cursor: "pointer",
