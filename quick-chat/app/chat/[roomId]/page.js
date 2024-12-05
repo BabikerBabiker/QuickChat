@@ -12,6 +12,7 @@ import {
   query,
   updateDoc,
 } from "firebase/firestore";
+import Image from 'next/image';
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { auth, db } from "../../../lib/firebase";
@@ -332,7 +333,7 @@ export default function Room({ params: paramsPromise }) {
                         marginRight: "10px",
                       }}
                     >
-                      <img
+                      <Image
                         src={msg.photoURL}
                         alt={msg.displayName}
                         style={{
