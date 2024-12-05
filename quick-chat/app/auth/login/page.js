@@ -73,7 +73,7 @@ export default function Login() {
 
       <Box sx={{ textAlign: "center", marginTop: 2 }}>
         <Typography variant="body1">
-          Don&apost have an account?{" "}
+          Dont have an account?{" "}
           <Button onClick={handleSignUpRedirect} sx={{ textDecoration: "underline", color: "primary.main" }}>
             Sign Up
           </Button>

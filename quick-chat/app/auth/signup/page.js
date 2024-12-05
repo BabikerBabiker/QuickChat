@@ -148,7 +148,7 @@ export default function Signup() {
 
         <Box sx={{ marginTop: 2 }}>
           <Typography variant="body1" sx={{ marginBottom: 0 }}>
-            Profile Picture
+            Profile Picture (1mb max)
           </Typography>
           <FormControl fullWidth>
             <InputLabel htmlFor="profile-picture-upload"></InputLabel>
