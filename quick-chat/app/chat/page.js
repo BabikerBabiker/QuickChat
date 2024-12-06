@@ -1,4 +1,4 @@
-"use client"; // Client Component directive
+"use client";
 
 import Navbar from "@/app/components/Navbar";
 import {
@@ -34,9 +34,20 @@ export default function Chat() {
       setLoading(true);
       try {
         const roomsSnapshot = await getDocs(collection(db, "chatRooms"));
-        setChatRooms(
-          roomsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-        );
+        const userUid = auth.currentUser?.uid;
+        const accessibleRooms = [];
+
+        for (let roomDoc of roomsSnapshot.docs) {
+          const roomData = roomDoc.data();
+
+          if (roomData.isPrivate && !roomData.allowedUsers.includes(userUid)) {
+            continue;
+          }
+
+          accessibleRooms.push({ id: roomDoc.id, ...roomData });
+        }
+
+        setChatRooms(accessibleRooms);
       } catch (error) {
         console.error("Error fetching chat rooms:", error);
       } finally {

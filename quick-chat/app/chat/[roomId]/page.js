@@ -52,10 +52,14 @@ export default function Room({ params: paramsPromise }) {
       try {
         const roomDoc = await getDoc(doc(db, "chatRooms", roomId));
         if (roomDoc.exists()) {
-          setRoom(roomDoc.data());
+          const roomData = roomDoc.data();
+          if (roomData.isPrivate && !roomData.allowedUsers.includes(auth.currentUser?.uid)) {
+            router.push("/not-authorized"); 
+          } else {
+            setRoom(roomData);
+          }
         } else {
           console.error("Room not found in Firestore");
-          setRoom(null);
         }
       } catch (error) {
         console.error("Error fetching room:", error);
@@ -235,6 +239,12 @@ export default function Room({ params: paramsPromise }) {
           overflow: "hidden",
         }}
       >
+        <Button
+      variant="contained"
+      color="primary"
+      onClick={() => router.push(`/chat/${roomId}/settings`)} 
+      sx={{ alignSelf: "flex-start", mb: 2 }}
+    >Settings</Button>
         <Typography
           variant="h4"
           align="center"
@@ -333,16 +343,17 @@ export default function Room({ params: paramsPromise }) {
                         marginRight: "10px",
                       }}
                     >
-                      <Image
-                        src={msg.photoURL}
-                        alt={msg.displayName}
-                        style={{
-                          width: "40px",
-                          height: "40px",
-                          borderRadius: "50%",
-                          objectFit: "cover",
-                        }}
-                      />
+<div style={{ position: "relative", width: "40px", height: "40px" }}>
+  <Image
+    src={msg.photoURL}
+    alt={msg.displayName}
+    fill
+    style={{
+      borderRadius: "50%",
+      objectFit: "cover",
+    }}
+  />
+</div>
                     </Box>
                     <Box>
                       <Typography variant="body2" sx={{ fontWeight: "bold" }}>

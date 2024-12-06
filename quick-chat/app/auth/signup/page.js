@@ -1,6 +1,18 @@
 "use client";
 
-import { Alert, Box, Button, CircularProgress, Container, FormControl, Input, InputLabel, TextField, Typography } from "@mui/material"; // Import MUI components
+import {
+  Alert,
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  FormControl,
+  Input,
+  InputLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
+import imageCompression from "browser-image-compression";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
@@ -35,54 +47,64 @@ export default function Signup() {
     setError("");
     setLoading(true);
 
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      setLoading(false);
-      return;
-    }
-
-    if (!validateUsername(username)) {
-      setError("Username must be at least 5 characters and cannot contain spaces.");
-      setLoading(false);
-      return;
-    }
-
-    const usernameRef = doc(db, "users", username);
-    const usernameSnapshot = await getDoc(usernameRef);
-    if (usernameSnapshot.exists()) {
-      setError("Username is already in use.");
-      setLoading(false);
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      setLoading(false);
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters long.");
-      setLoading(false);
-      return;
-    }
-
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      if (!validateEmail(email)) {
+        throw new Error("Please enter a valid email address.");
+      }
+
+      if (!validateUsername(username)) {
+        throw new Error(
+          "Username must be at least 5 characters and cannot contain spaces."
+        );
+      }
+
+      const usernameRef = doc(db, "users", username);
+      const usernameSnapshot = await getDoc(usernameRef);
+      if (usernameSnapshot.exists()) {
+        throw new Error("Username is already in use.");
+      }
+
+      if (password !== confirmPassword) {
+        throw new Error("Passwords do not match.");
+      }
+
+      if (password.length < 6) {
+        throw new Error("Password must be at least 6 characters long.");
+      }
+
+      let profilePictureBase64 = null;
+      if (profilePicture) {
+        if (profilePicture.size > 1 * 1024 * 1024) {
+          const compressedImage = await imageCompression(profilePicture, {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1024,
+            useWebWorker: true,
+          });
+          profilePictureBase64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (err) => reject(err);
+            reader.readAsDataURL(compressedImage);
+          });
+        } else {
+          profilePictureBase64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (err) => reject(err);
+            reader.readAsDataURL(profilePicture);
+          });
+        }
+      }
+
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
       await updateProfile(userCredential.user, {
         displayName: username,
       });
-
-      let profilePictureBase64 = null;
-      if (profilePicture) {
-        const reader = new FileReader();
-        profilePictureBase64 = await new Promise((resolve, reject) => {
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = (err) => reject(err);
-          reader.readAsDataURL(profilePicture);
-        });
-      }
 
       await setDoc(doc(db, "users", userCredential.user.uid), {
         username,
@@ -92,25 +114,33 @@ export default function Signup() {
 
       router.push("/auth/login");
     } catch (err) {
-      if (err.code === "auth/email-already-in-use") {
-        setError("Email is already in use.");
-      } else {
-        setError("Error creating account: " + err.message);
-      }
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Container maxWidth="xs" sx={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100vh" }}>
+    <Container
+      maxWidth="xs"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        height: "100vh",
+      }}
+    >
       <Box sx={{ textAlign: "center", marginBottom: 4 }}>
         <Typography variant="h4" gutterBottom>
           Create an Account
         </Typography>
       </Box>
 
-      <Box component="form" onSubmit={handleSignup} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+      <Box
+        component="form"
+        onSubmit={handleSignup}
+        sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+      >
         <TextField
           label="Username"
           variant="outlined"
@@ -148,7 +178,7 @@ export default function Signup() {
 
         <Box sx={{ marginTop: 2 }}>
           <Typography variant="body1" sx={{ marginBottom: 0 }}>
-            Profile Picture (1mb max)
+            Profile Picture
           </Typography>
           <FormControl fullWidth>
             <InputLabel htmlFor="profile-picture-upload"></InputLabel>
@@ -183,7 +213,10 @@ export default function Signup() {
       <Box sx={{ textAlign: "center", marginTop: 2 }}>
         <Typography variant="body1">
           Already have an account?{" "}
-          <Button onClick={() => router.push("/auth/login")} sx={{ textDecoration: "underline", color: "primary.main" }}>
+          <Button
+            onClick={() => router.push("/auth/login")}
+            sx={{ textDecoration: "underline", color: "primary.main" }}
+          >
             Login
           </Button>
         </Typography>
