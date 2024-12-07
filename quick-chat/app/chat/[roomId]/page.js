@@ -12,7 +12,7 @@ import {
   query,
   updateDoc,
 } from "firebase/firestore";
-import Image from 'next/image';
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { auth, db } from "../../../lib/firebase";
@@ -53,8 +53,11 @@ export default function Room({ params: paramsPromise }) {
         const roomDoc = await getDoc(doc(db, "chatRooms", roomId));
         if (roomDoc.exists()) {
           const roomData = roomDoc.data();
-          if (roomData.isPrivate && !roomData.allowedUsers.includes(auth.currentUser?.uid)) {
-            router.push("/not-authorized"); 
+          if (
+            roomData.isPrivate &&
+            !roomData.allowedUsers.includes(auth.currentUser?.uid)
+          ) {
+            router.push("/not-authorized");
           } else {
             setRoom(roomData);
           }
@@ -240,11 +243,14 @@ export default function Room({ params: paramsPromise }) {
         }}
       >
         <Button
-      variant="contained"
-      color="primary"
-      onClick={() => router.push(`/chat/${roomId}/settings`)} 
-      sx={{ alignSelf: "flex-start", mb: 2 }}
-    >Settings</Button>
+          variant="contained"
+          color="primary"
+          onClick={() => router.push(`/chat`)}
+          sx={{ alignSelf: "flex-start", mb: 2 }}
+        >
+          Go Back
+        </Button>
+
         <Typography
           variant="h4"
           align="center"
@@ -343,17 +349,23 @@ export default function Room({ params: paramsPromise }) {
                         marginRight: "10px",
                       }}
                     >
-<div style={{ position: "relative", width: "40px", height: "40px" }}>
-  <Image
-    src={msg.photoURL}
-    alt={msg.displayName}
-    fill
-    style={{
-      borderRadius: "50%",
-      objectFit: "cover",
-    }}
-  />
-</div>
+                      <div
+                        style={{
+                          position: "relative",
+                          width: "40px",
+                          height: "40px",
+                        }}
+                      >
+                        <Image
+                          src={msg.photoURL}
+                          alt={msg.displayName}
+                          fill
+                          style={{
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      </div>
                     </Box>
                     <Box>
                       <Typography variant="body2" sx={{ fontWeight: "bold" }}>
@@ -434,7 +446,16 @@ export default function Room({ params: paramsPromise }) {
             ➤
           </Button>
         </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => router.push(`/chat/${roomId}/settings`)}
+          sx={{ alignSelf: "flex-start", mt: "20px", mb: 2 }}
+        >
+          Settings
+        </Button>
       </Box>
+      
     </>
   );
 }
